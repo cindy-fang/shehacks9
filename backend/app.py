@@ -4,18 +4,17 @@ from command_history import view_command_history
 from command_exec import execute_command
 from cohere_client import CohereClient
 from config import theme
-from rich.console import Console  # Import Console
+from rich.console import Console
 import logging
 from dotenv import load_dotenv
 import os
+from setup_project import setup_project  # Import the setup_project function
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Get the Cohere API key from the environment variable
+# Initialize Cohere API client
 cohere_api_key = os.getenv('COHERE_API_KEY')
-
-# Initialize Cohere API client with the loaded API key
 cohere_client = CohereClient(cohere_api_key)
 
 # Initialize Console with the theme
@@ -24,7 +23,7 @@ console = Console(theme=theme)
 # Define prompt_toolkit style
 style = Style.from_dict({
     'prompt': 'bold #FF9D00',
-    'input': 'bg:#0000ff'
+    'input': '#0000ff',  
 })
 
 def main():
@@ -33,7 +32,7 @@ def main():
 
     while True:
         try:
-            action = session.prompt("What would you like to do? (ask/view/exit): ", style=style).strip().lower()
+            action = session.prompt("What would you like to do? (ask/view/setup/exit): ", style=style).strip().lower()
             if action == "view":
                 view_command_history()
                 continue
@@ -41,7 +40,6 @@ def main():
                 console.print("\nExiting...", style="info")
                 break
             elif action == "ask":
-                # Prompt for OS type only if not already set
                 if not os_type:
                     while True:
                         os_type = session.prompt("What OS are you running on? (windows/linux/macos): ", style=style).strip().lower()
@@ -60,7 +58,6 @@ def main():
 
                 edited_command = session.prompt(f'Edit and confirm command (default: "{cli_command}"): ', default=cli_command, style=style)
 
-                # Check for catastrophic commands
                 if 'rm -rf' in edited_command or 'dd if=' in edited_command or 'mkfs' in edited_command:
                     console.print("[bold red]Warning: This command can cause serious damage![/bold red]")
                     final_confirmation = session.prompt(f'Are you sure you want to run "{edited_command}"? This action cannot be undone! [y/N] ', style=style)
@@ -72,10 +69,13 @@ def main():
                 if confirmation.lower() == 'y':
                     output = execute_command(edited_command)
                     console.print(output, style="success" if output else "error")
-                    logging.info(f"CLI command: {edited_command}")  # Log executed command
+                    logging.info(f"CLI command: {edited_command}")
 
+            elif action == "setup":
+                setup_project()  # Call the setup_project function
+                continue
             else:
-                console.print("Invalid action. Please enter 'ask', 'view', or 'exit'.", style="error")
+                console.print("Invalid action. Please enter 'ask', 'view', 'setup', or 'exit'.", style="error")
 
         except KeyboardInterrupt:
             console.print("\nExiting...", style="info")

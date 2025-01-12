@@ -34,7 +34,7 @@ def execute_command(command):
         if any(command.lower().startswith(shell_command) for shell_command in shell_commands):
             # Prevent 'exit' from terminating the script
             if 'exit' in command.lower():
-                console.print("Exit command is ignored to prevent terminating the script.", style="yellow")
+                console.print("Exit command is ignored to prevent terminating the script.", style="warning")
                 return "Exit command is ignored to prevent terminating the script."
             
             # Execute shell commands using os.system
