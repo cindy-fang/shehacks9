@@ -3,17 +3,6 @@ import subprocess
 from rich.console import Console
 from config import theme
 from command_exec import run_shell_command
-import cohere
-from cohere_client import CohereClient
-from dotenv import load_dotenv
-import re
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Initialize Cohere API client
-cohere_api_key = os.getenv('COHERE_API_KEY')
-co = cohere.Client(cohere_api_key)
 
 # Initialize Console with the theme
 console = Console(theme=theme)
@@ -76,72 +65,6 @@ def get_project_name(project_type):
         "5": "ruby-rails"
     }
     return project_names.get(project_type, "unknown-project")
-
-def generate_code_for_file(file_path, user_input):
-    """
-    This function interacts with the Cohere API to generate or modify code 
-    in a specific file based on the user's input.
-    """
-    try:
-        # Read the content of the current file
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-
-        # Prepare the prompt for Cohere
-        prompt = f"""
-        Below is the code content of a file in my project:
-
-        {file_content}
-
-        I want to add or modify to the file:
-
-        {user_input}
-
-        Please generate the appropriate code to fulfill the request.
-        """
-
-        # Call the Cohere API to generate or modify the code
-        response = co.generate(
-            model="command-r-plus",  # You can choose the model based on your needs
-            prompt=prompt,
-            max_tokens=200,  # Adjust as necessary
-            temperature=0.7,  # Adjust for creativity or precision
-        )
-
-        # Get the generated code from the API response
-        console.log(response)
-        generated_code = response.generations[0].text.strip()
-        console.log(generated_code)
-        # Find the position of the starting and ending code blocks
-        #start_code = "```html"
-        #end_code = "```"
-
-        #regex 
-        match = re.search(r"```([a-zA-Z]+)\n(.*?)```", generated_code, re.DOTALL)
-        if match:
-            # Extract the code content between the markers (the second group captures the content)
-            generated_code = match.group(2).strip()
-
-        # Find the starting and ending indices
-        #start_index = generated_code.find(start_code) + len(start_code)
-        #end_index = generated_code.find(end_code, start_index)
-
-        #if start_index != -1 and end_index != -1:
-            # Extract only the HTML content between the code block markers
-            #generated_code = generated_code[start_index:end_index].strip()
-
-        # Append the generated code to the file
-        #with open(file_path, 'a') as file:
-            #file.write("\n" + generated_code)
-
-        with open(file_path, 'w') as file:  # Use 'w' to overwrite the file
-            file.write(generated_code)
-
-        console.print(f"Code generated and added to {file_path}:\n{generated_code}", style="info")
-
-    except Exception as e:
-        console.print(f"Error generating code: {e}", style="error")
-        return None
 
 def setup_project():
     console.print("What project would you like to set up:", style="bold")
@@ -237,12 +160,3 @@ if __name__ == "__main__":
 
     else:
         console.print("Invalid choice. Please choose a valid project type.", style="error")
-
-    # After setup, ask the user which file they want to work on
-    file_to_work_on = input("Enter the file path you want to modify (e.g., 'index.html'): ").strip()
-
-    if os.path.exists(file_to_work_on):
-        user_input = input("What do you want to add or modify in this file? ").strip()
-        generate_code_for_file(file_to_work_on, user_input)
-    else:
-        console.print(f"File {file_to_work_on} does not exist in the project directory.", style="error")
