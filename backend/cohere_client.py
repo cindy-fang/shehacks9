@@ -5,13 +5,12 @@ class CohereClient:
         self.co = cohere.Client(api_key)
     
     def translate_command(self, nlp_command, os_type):
-        if os_type.lower() == "windows":
-            prompt = f"Translate this natural language to a single windows CLI command: {nlp_command}"
-        elif os_type.lower() == "linux":
-            prompt = f"Translate this natural language to a single linux CLI command: {nlp_command}"
-        elif os_type.lower() == "macos":
-            prompt = f"Translate this natural language to a single macOS CLI: {nlp_command}"
-        else:
+        os_type = os_type.lower()
+        # Dynamically create the prompt using the os_type variable
+        prompt = f"Translate this natural language to a single {os_type} CLI command: {nlp_command}"
+
+        # Validate the os_type against acceptable values
+        if os_type not in ["windows", "linux", "macos"]:
             print(f"Invalid OS type: {os_type}")
             return None
 

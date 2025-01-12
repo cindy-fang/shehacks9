@@ -8,7 +8,8 @@ from rich.console import Console
 import logging
 from dotenv import load_dotenv
 import os
-from setup_project import setup_project  # Import the setup_project function
+from setup_project import setup_project  
+import platform #detect os! 
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,9 +27,27 @@ style = Style.from_dict({
     'input': '#0000ff',  
 })
 
+def get_os_type():
+    """Automatically detect the OS type."""
+    system = platform.system().lower()
+    if system == "windows":
+        return "windows"
+    elif system == "linux":
+        return "linux"
+    elif system == "darwin":  # macOS is identified as 'Darwin' on most systems
+        return "macos"
+    else:
+        return None
+
 def main():
     session = PromptSession()
-    os_type = None  # Initialize a variable to store the OS type
+    os_type = get_os_type()
+
+    if not os_type:
+        console.print("Could not determine the operating system automatically.", style="error")
+        return  # Exit if the OS cannot be determined
+
+    console.print(f"Detected OS: {os_type.capitalize()}", style="info")  # Show detected OS
 
     while True:
         try:
@@ -40,14 +59,6 @@ def main():
                 console.print("\nExiting...", style="info")
                 break
             elif action == "ask":
-                if not os_type:
-                    while True:
-                        os_type = session.prompt("What OS are you running on? (windows/linux/macos): ", style=style).strip().lower()
-                        if os_type in ["windows", "linux", "macos"]:
-                            break
-                        else:
-                            console.print("Invalid input. Please enter 'windows', 'linux', or 'macos'.", style="error")
-
                 nlp_command = session.prompt("$ask ", style=style)
                 logging.info(f"NLP command: {nlp_command}")
                 cli_command = cohere_client.translate_command(nlp_command, os_type)
@@ -72,7 +83,7 @@ def main():
                     logging.info(f"CLI command: {edited_command}")
 
             elif action == "setup":
-                setup_project()  # Call the setup_project function
+                setup_project()  
                 continue
             else:
                 console.print("Invalid action. Please enter 'ask', 'view', 'setup', or 'exit'.", style="error")
