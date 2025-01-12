@@ -4,6 +4,8 @@
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
+  background-color: #ececec;
+  color: #0b081c;
 }
 
 .primary {

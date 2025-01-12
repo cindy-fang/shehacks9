@@ -50,17 +50,15 @@ export default function App() {
       <NavBar />
 
       <main className={styles.mainContent}>
-        <section className={styles.hero}>
-          <img
+        <section className="hero">
+          {/* <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/6556a9b4a25c11052ee857881a911afcd7426b62e78ed5b2308eb8497fa5a740?placeholderIfAbsent=true&apiKey=817559b7301c4b3c964f75e98fcf293f"
             alt=""
             className={styles.heroBackground}
-          />
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>
-              Your connection to a smarter CLI
-            </h1>
+          /> */}
+          <div className="heroContent">
+            <h1 className="heroTitle">Your connection to a smarter CLI</h1>
             <p className={styles.heroDescription}>
               A CLI assistant turning natural language into commands.
               <br />
@@ -91,7 +89,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className={styles.features} id="features">
+        <section className="features">
           <h2 className={styles.featuresTitle}>Features</h2>
           <p className={styles.featuresDescription}>
             Learn how Synapse connects your commands to smarter execution. We're
@@ -110,9 +108,9 @@ export default function App() {
           </div>
         </section>
 
-        <section className={styles.cta}>
-          <div className={styles.ctaContainer}>
-            <h2 className={styles.ctaTitle}>
+        <section className="cta">
+          <div className="ctaContainer">
+            <h2 className="ctaTitle">
               From thought to execution, powered by Synapse.
             </h2>
             <p className={styles.ctaDescription}>

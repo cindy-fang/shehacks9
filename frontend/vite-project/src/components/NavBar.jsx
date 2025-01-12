@@ -11,21 +11,21 @@ export const NavBar = () => {
             <div className={styles.logoWrapper}>
               <img
                 loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/35ff9fa1b6c7ee6c910193c0958f7311745ae270c66bb1fbe7d0dd07b1262118?placeholderIfAbsent=true&apiKey=817559b7301c4b3c964f75e98fcf293f"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6b32479b-93c0-4845-bab4-9d036897d49d?placeholderIfAbsent=true&apiKey=817559b7301c4b3c964f75e98fcf293f"
                 alt="Synapse logo"
-                className={styles.logo}
+                className={styles.navLogo}
               />
-              <span className={styles.brandName}>Synapse</span>
             </div>
-          </div>
-          <div className={styles.navMenu}>
-            <a href="#demo" className={styles.navLink} tabIndex={0}>
-              Demo
-            </a>
-            <a href="#features" className={styles.navLink} tabIndex={0}>
-              Features
-            </a>
-            <Button variant="secondary">Download</Button>
+
+            <div className={styles.navMenu}>
+              <a href="#demo" className={styles.navLink} tabIndex={0}>
+                Demo
+              </a>
+              <a href="#features" className={styles.navLink} tabIndex={0}>
+                Features
+              </a>
+              <Button variant="secondary">Download</Button>
+            </div>
           </div>
         </div>
       </div>
