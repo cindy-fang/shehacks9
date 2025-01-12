@@ -9,7 +9,8 @@ console = Console(theme=theme)
 # List of commands that should be handled by os.system
 shell_commands = ['cd', 'cls', 'clear', 'exit', 'start', 'open', 'echo']
 
-def execute_command(command):
+#from main
+def execute_cli_command(command):
     try:
         # Handle cd commands
         if command.lower().startswith('cd '):
@@ -59,3 +60,14 @@ def execute_command(command):
     except Exception as e:
         logging.error(f"Unexpected error occurred: {str(e)}")
         return f"An unexpected error occurred: {str(e)}"
+
+#from setup project
+def run_shell_command(command):
+    try:
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
+        if result.stdout:
+            console.print(result.stdout, style="info")
+        if result.stderr:
+            console.print(result.stderr, style="error")
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error executing command '{command}': {e.stderr.strip()}", style="error")

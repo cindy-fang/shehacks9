@@ -1,7 +1,7 @@
 from prompt_toolkit import PromptSession
 from prompt_toolkit.styles import Style
 from command_history import view_command_history
-from command_exec import execute_command
+from command_exec import execute_cli_command
 from cohere_client import CohereClient
 from config import theme
 from rich.console import Console
@@ -67,7 +67,7 @@ def main():
 
                 confirmation = session.prompt(f'Execute "{edited_command}"? [y/N] ', style=style)
                 if confirmation.lower() == 'y':
-                    output = execute_command(edited_command)
+                    output = execute_cli_command(edited_command)
                     console.print(output, style="success" if output else "error")
                     logging.info(f"CLI command: {edited_command}")
 

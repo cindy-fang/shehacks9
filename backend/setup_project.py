@@ -1,8 +1,8 @@
 import os
 import subprocess
 from rich.console import Console
-from command_exec import execute_command
 from config import theme
+from command_exec import run_shell_command
 
 # Initialize Console with the theme
 console = Console(theme=theme)
@@ -56,16 +56,6 @@ def check_flask():
         console.print(f"Error while checking Flask: {e}", style="error")
         return False
 
-def execute_command(command):
-    try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
-        if result.stdout:
-            console.print(result.stdout, style="info")
-        if result.stderr:
-            console.print(result.stderr, style="error")
-    except subprocess.CalledProcessError as e:
-        console.print(f"Error executing command '{command}': {e.stderr.strip()}", style="error")
-
 def get_project_name(project_type):
     project_names = {
         "1": "static-website",
@@ -102,15 +92,15 @@ def setup_project():
     if project_type == "2":  # React
         if not check_node_npm():
             return
-        execute_command("npx create-react-app my-app && cd my-app && npm install && npm start")
+        run_shell_command("npx create-react-app my-app && cd my-app && npm install && npm start")
         console.print("Setup completed for React app.", style="success")
 
     elif project_type == "5":  # Ruby on Rails
         if not check_ruby():
             return
-        execute_command("rails new my-app && cd my-app")
-        execute_command("bundle install")
-        execute_command("rails server")
+        run_shell_command("rails new my-app && cd my-app")
+        run_shell_command("bundle install")
+        run_shell_command("rails server")
         console.print("Setup completed for Ruby on Rails app.", style="success")
 
     elif project_type == "3":  # Java
