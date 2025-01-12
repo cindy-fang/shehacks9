@@ -237,12 +237,16 @@ if __name__ == "__main__":
 
     else:
         console.print("Invalid choice. Please choose a valid project type.", style="error")
+        return
 
-    # After setup, ask the user which file they want to work on
-    file_to_work_on = input("Enter the file path you want to modify (e.g., 'index.html'): ").strip()
-
-    if os.path.exists(file_to_work_on):
-        user_input = input("What do you want to add or modify in this file? ").strip()
-        generate_code_for_file(file_to_work_on, user_input)
-    else:
-        console.print(f"File {file_to_work_on} does not exist in the project directory.", style="error")
+    while True:
+        file_to_work_on = input("Enter the file path you want to modify (e.g., 'index.html'): ").strip()
+        if os.path.exists(file_to_work_on):
+            user_input = input("What do you want to add or modify in this file? ").strip()
+            generate_code_for_file(file_to_work_on, user_input)
+        else:
+            console.print(f"File {file_to_work_on} does not exist in the project directory.", style="error")
+        
+        continue_modifying = input("Do you want to modify another file? (yes/no): ").strip().lower()
+        if continue_modifying != "yes":
+            break
