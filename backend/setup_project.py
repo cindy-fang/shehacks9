@@ -20,27 +20,52 @@ console = Console(theme=theme)
 
 def check_node_npm():
     try:
+        # Check if Node.js is installed
         node_check = subprocess.run(["node", "--version"], capture_output=True, text=True)
-        npm_check = subprocess.run(["npm", "--version"], capture_output=True, text=True)
-
-        if node_check.returncode != 0 or npm_check.returncode != 0:
-            console.print("Node.js or npm is not installed. Please install them from: https://nodejs.org/en/download/", style="error")
+        if node_check.returncode != 0:
+            console.print("Node.js is not installed. Please install it from: https://nodejs.org/en/download/", style="error")
             return False
+
+        # Check if npm is installed
+        npm_check = subprocess.run(["npm", "--version"], capture_output=True, text=True)
+        if npm_check.returncode != 0:
+            console.print("npm is not installed. Please install it from: https://nodejs.org/en/download/", style="error")
+            return False
+
+        # Both Node.js and npm are installed
         return True
+
+    except FileNotFoundError:
+        console.print("Node.js or npm is not installed or not in PATH. Please install them from: https://nodejs.org/en/download/", style="error")
+        return False
+
     except Exception as e:
-        console.print(f"Error while checking Node.js/npm: {e}", style="error")
+        console.print(f"Unexpected error while checking Node.js/npm: {e}", style="error")
         return False
 
 def check_ruby():
     try:
+        # Check if Ruby is installed
         ruby_check = subprocess.run(["ruby", "--version"], capture_output=True, text=True)
-
         if ruby_check.returncode != 0:
             console.print("Ruby is not installed. Please install it from: https://www.ruby-lang.org/en/documentation/installation/", style="error")
             return False
+
+        # Check if Rails is installed
+        rails_check = subprocess.run(["rails", "--version"], capture_output=True, text=True)
+        if rails_check.returncode != 0:
+            console.print("Rails is not installed. Please install it using: gem install rails", style="error")
+            return False
+
+        # Both Ruby and Rails are installed
         return True
+
+    except FileNotFoundError:
+        console.print("Ruby or Rails is not installed or not in PATH. Please install them as per instructions on: https://www.ruby-lang.org/en/documentation/installation/ and https://rubyonrails.org/", style="error")
+        return False
+
     except Exception as e:
-        console.print(f"Error while checking Ruby: {e}", style="error")
+        console.print(f"Unexpected error while checking Ruby/Rails: {e}", style="error")
         return False
 
 def check_java():
@@ -239,14 +264,19 @@ if __name__ == "__main__":
         console.print("Invalid choice. Please choose a valid project type.", style="error")
         return
 
-    while True:
-        file_to_work_on = input("Enter the file path you want to modify (e.g., 'index.html'): ").strip()
-        if os.path.exists(file_to_work_on):
-            user_input = input("What do you want to add or modify in this file? ").strip()
-            generate_code_for_file(file_to_work_on, user_input)
-        else:
-            console.print(f"File {file_to_work_on} does not exist in the project directory.", style="error")
-        
-        continue_modifying = input("Do you want to modify another file? (yes/no): ").strip().lower()
-        if continue_modifying != "yes":
-            break
+    # Ask if the user wants to modify any file
+    modify_files = input("Do you want to modify any file? (yes/no): ").strip().lower()
+    if modify_files == 'yes':
+        while True:
+            file_to_work_on = input("Enter the file path you want to modify: ").strip()
+            if os.path.exists(file_to_work_on):
+                user_input = input("What do you want to add or modify in this file? ").strip()
+                generate_code_for_file(file_to_work_on, user_input)
+            else:
+                console.print(f"File {file_to_work_on} does not exist in the project directory.", style="error")
+
+            continue_modifying = input("Do you want to modify another file? (yes/no): ").strip().lower()
+            if continue_modifying != "yes":
+                break
+    else:
+        console.print("No file modification selected. Exiting...", style="info")
