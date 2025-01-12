@@ -1,0 +1,22 @@
+2025-01-11 16:17:51 - NLP command: list all files
+2025-01-11 16:17:52 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 16:17:56 - CLI command: dir
+2025-01-11 16:21:56 - NLP command: create new directory named test
+2025-01-11 16:21:56 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 16:21:59 - CLI command: mkdir test
+2025-01-11 16:22:12 - NLP command: delete directory named test
+2025-01-11 16:22:12 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 16:22:14 - CLI command: rmdir test
+2025-01-11 16:24:34 - NLP command: recursively delete a directory and all of its contents
+2025-01-11 16:24:34 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 16:24:57 - Error: Failed to get style 'warning'; unable to parse 'warning' as color; 'warning' is not a valid color
+2025-01-11 16:27:07 - NLP command: recursively delete all contents in this folder
+2025-01-11 16:27:08 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 16:29:44 - NLP command: list all files
+2025-01-11 16:29:44 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 19:40:53 - NLP command: list all files
+2025-01-11 19:40:54 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 19:40:57 - CLI command: dir
+2025-01-11 20:47:59 - NLP command: list all files
+2025-01-11 20:47:59 - HTTP Request: POST https://api.cohere.com/v1/generate "HTTP/1.1 200 OK"
+2025-01-11 20:48:02 - CLI command: dir
