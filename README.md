@@ -1,6 +1,6 @@
-# Cmdbuddy
+# Synapse
 
-Cmdbuddy is an interactive terminal assistant that translates natural language commands into system-specific commands, and helps you execute them in your terminal. It's built using Python and the Cohere API for natural language processing.
+Synapse is an interactive terminal assistant that translates natural language commands into system-specific commands, and helps you execute them in your terminal. It's built using Python and the Cohere API for natural language processing.
 
 ---
 
